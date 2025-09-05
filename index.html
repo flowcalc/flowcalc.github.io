@@ -176,13 +176,13 @@
                  for (let i = 1; i <= 7; i++) {
                 document.getElementById('sec_' + i).style.color = 'black';
                  }
-                // sec の中から 2.25 に一番近いものを探す
+                // sec の中から 2.7 に一番近いものを探す
                 const secs = [sec_1, sec_2, sec_3,sec_4,sec_5,sec_6,sec_7];
                 let closestIndex = 0;
-                let closestDiff = Math.abs(secs[0] - 2.25);
+                let closestDiff = Math.abs(secs[0] - 2.7);
 
                 for (let i = 1; i < secs.length; i++) {
-                    const diff = Math.abs(secs[i] - 2.25);
+                    const diff = Math.abs(secs[i] - 2.7);
                     if (diff < closestDiff) {
                     closestDiff = diff;
                     closestIndex = i;
