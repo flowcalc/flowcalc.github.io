@@ -2,322 +2,350 @@
 <html lang="ja">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>等速吸引計算フォーム</title>
-    <head>
-            <!-- favicon -->
-        <link rel="icon" type="image/png" sizes="32x32" href="/icons/pump_calc_32x32.png">
-            <!-- Apple用ホームアイコン -->
-        <link rel="apple-touch-icon" sizes="180x180" href="/icons/pump_calc_180x180.png">
-            <!-- Android用（Chrome/PWA） -->
-        <link rel="icon" sizes="192x192" href="/icons/pump_calc_192x192.png">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>等速吸引計算フォーム</title>
+    <head>
+            <!-- favicon -->
+        <link rel="icon" type="image/png" sizes="32x32" href="/icons/pump_calc_32x32.png">
+            <!-- Apple用ホームアイコン -->
+        <link rel="apple-touch-icon" sizes="180x180" href="/icons/pump_calc_180x180.png">
+            <!-- Android用（Chrome/PWA） -->
+        <link rel="icon" sizes="192x192" href="/icons/pump_calc_192x192.png">
 
-    <style>
-        .form-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-    </style>
-    <style>
-        input {
-            margin-bottom: 0%;
-            width: 20%;
-            padding: 1px;
-        }
-    </style>
-    <style>
-        .small-text {
-          font-size: 10px;
-        }
-    </style>
+    <style>
+        .form-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+    <style>
+        input {
+            margin-bottom: 0%;
+            width: 20%;
+            padding: 1px;
+        }
+    </style>
+    <style>
+        .small-text {
+          font-size: 10px;
+        }
+    </style>
 
-    <script>
-        function calculate() {
-            //排ガス温度計算
-            var nums = [
-                document.getElementById("temp1").value,
-                document.getElementById("temp2").value,
-                document.getElementById("temp3").value,
-                document.getElementById("temp4").value,
-                document.getElementById("temp5").value,
-            ]
+    <script>
+        function calculate() {
+            //排ガス温度計算
+            var nums = [
+                document.getElementById("temp1").value,
+                document.getElementById("temp2").value,
+                document.getElementById("temp3").value,
+                document.getElementById("temp4").value,
+                document.getElementById("temp5").value,
+            ]
 
-            var validNums = nums.map((n) => parseFloat(n)).filter((n) => !isNaN(n)) // 数値のみ抽出
+            var validNums = nums.map((n) => parseFloat(n)).filter((n) => !isNaN(n)) // 数値のみ抽出
 
-            if (validNums.length > 0) {
-                var sum = validNums.reduce((a, b) => a + b, 0)
-                var avg = sum / validNums.length
-                avg = parseFloat(avg.toFixed(2))
-                document.getElementById("temp_ave").innerText = "平均(℃) = " + avg
-            } else {
-                document.getElementById("temp_ave").innerText = "平均(℃) = -"
-            } 
-            //排ガス温度計算
-            // 水分計算
-            var a = parseFloat(document.getElementById("a").value) || 0
-            var b = parseFloat(document.getElementById("b").value) || 0
-            var c = parseFloat(document.getElementById("c").value) || 0
-            var d = parseFloat(document.getElementById("d").value) || 0
-            var e = parseFloat(document.getElementById("e").value) || 0
-            var f = parseFloat(document.getElementById("f").value) || 0
-            var g = parseFloat(document.getElementById("g").value) || 0
-            var h = parseFloat(document.getElementById("h").value) || 0
-            var i = parseFloat(document.getElementById("i").value) || 0
+            if (validNums.length > 0) {
+                var sum = validNums.reduce((a, b) => a + b, 0)
+                var avg = sum / validNums.length
+                avg = parseFloat(avg.toFixed(2))
+                document.getElementById("temp_ave").innerText = "平均(℃) = " + avg
+            } else {
+                document.getElementById("temp_ave").innerText = "平均(℃) = -"
+            } 
+            //排ガス温度計算
+            // 水分計算
+            var a = parseFloat(document.getElementById("a").value) || 0
+            var b = parseFloat(document.getElementById("b").value) || 0
+            var c = parseFloat(document.getElementById("c").value) || 0
+            var d = parseFloat(document.getElementById("d").value) || 0
+            var e = parseFloat(document.getElementById("e").value) || 0
+            var f = parseFloat(document.getElementById("f").value) || 0
+            var g = parseFloat(document.getElementById("g").value) || 0
+            var h = parseFloat(document.getElementById("h").value) || 0
+            var i = parseFloat(document.getElementById("i").value) || 0
 
-            var result1 = f - e
-            var result2 = c - a + d - b
-            var result3 =
-                (1.24 * result2 * 100) /
-                ((((result1 * 273) / (273 + g)) * (i + h)) / 101.3 + 1.24 * result2)
-            result3 = parseFloat(result3.toFixed(1))
+            var result1 = f - e
+            var result2 = c - a + d - b
+            var result3 =
+                (1.24 * result2 * 100) /
+                ((((result1 * 273) / (273 + g)) * (i + h)) / 101.3 + 1.24 * result2)
+            result3 = parseFloat(result3.toFixed(1))
 
-            document.getElementById("result1").innerText =
-                "吸引ガス量Vm(L) =  " + result1
-            document.getElementById("result2").innerText =
-                "水分捕集量ma(g) = " + result2
-            document.getElementById("result3").innerText = "水分Xw(%) = " + result3
-            // 水分計算
-            //排ガス流速
-            var Ps_O = parseFloat(document.getElementById("Ps_O").value) || 0
-            //排ガス流速
-            //ガス組成及びガス密度
-            var O2 = parseFloat(document.getElementById("O2").value) || 0
-            var CO2 = parseFloat(document.getElementById("CO2").value) || 0
-            var CO = parseFloat(document.getElementById("CO").value) || 0
+            document.getElementById("result1").innerText =
+                "吸引ガス量Vm(L) =  " + result1
+            document.getElementById("result2").innerText =
+                "水分捕集量ma(g) = " + result2
+            document.getElementById("result3").innerText = "水分Xw(%) = " + result3
+            // 水分計算
+            //排ガス流速
+            var Ps_O = parseFloat(document.getElementById("Ps_O").value) || 0
+            //排ガス流速
+            //ガス組成及びガス密度
+            var O2 = parseFloat(document.getElementById("O2").value) || 0
+            var CO2 = parseFloat(document.getElementById("CO2").value) || 0
+            var CO = parseFloat(document.getElementById("CO").value) || 0
 
-            var result4 = 100 - O2 - CO2
-            var result5 = result4 / (result4 - 3.76 * (O2 - CO / 2))
-            var result6 =
-                (1 / 2240) *
-                ((32 * O2 + 44 * CO2 + 28 * result4 + 28 * CO) * (1 - result3 / 100) +
-                    18 * result3)
-            var result7 = (((result6 * 273) / (273 + avg)) * (i + Ps_O)) / 101.3
+            var result4 = 100 - O2 - CO2
+            var result5 = result4 / (result4 - 3.76 * (O2 - CO / 2))
+            var result6 =
+                (1 / 2240) *
+                ((32 * O2 + 44 * CO2 + 28 * result4 + 28 * CO) * (1 - result3 / 100) +
+                    18 * result3)
+            var result7 = (((result6 * 273) / (273 + avg)) * (i + Ps_O)) / 101.3
 
-            document.getElementById("result4").innerText = "N2(%) = " + result4
-            document.getElementById("result5").innerText = "空気比m = " + result5.toFixed(2)
-            document.getElementById("result6").innerText = "湿り排ガス密度ρ0(kg/m3) = " + result6.toFixed(2)
-            document.getElementById("result7").innerText = "排ガス密度ρ(kg/m3) = " + result7.toFixed(2)
-            //ガス組成及びガス密度
-            //排ガス流速
-            var Pd_1 = parseFloat(document.getElementById("Pd_1").value) || 0
-            var Pd_2 = parseFloat(document.getElementById("Pd_2").value) || 0
-            var Pd_3 = parseFloat(document.getElementById("Pd_3").value) || 0
-            var Pd_4 = parseFloat(document.getElementById("Pd_4").value) || 0
-            var Ptube = parseFloat(document.getElementById("Ptube").value) || 0
+            document.getElementById("result4").innerText = "N2(%) = " + result4
+            document.getElementById("result5").innerText = "空気比m = " + result5.toFixed(2)
+            document.getElementById("result6").innerText = "湿り排ガス密度ρ0(kg/m3) = " + result6.toFixed(2)
+            document.getElementById("result7").innerText = "排ガス密度ρ(kg/m3) = " + result7.toFixed(2)
+            //ガス組成及びガス密度
+            //排ガス流速
+            var Pd_1 = parseFloat(document.getElementById("Pd_1").value) || 0
+            var Pd_2 = parseFloat(document.getElementById("Pd_2").value) || 0
+            var Pd_3 = parseFloat(document.getElementById("Pd_3").value) || 0
+            var Pd_4 = parseFloat(document.getElementById("Pd_4").value) || 0
+            var Ptube = parseFloat(document.getElementById("Ptube").value) || 0
 
-            var v_1 = Ptube * Math.sqrt((2 * Pd_1) / result7)
-            var v_2 = Ptube * Math.sqrt((2 * Pd_2) / result7)
-            var v_3 = Ptube * Math.sqrt((2 * Pd_3) / result7)
-            var v_4 = Ptube * Math.sqrt((2 * Pd_4) / result7)
+            var v_1 = Ptube * Math.sqrt((2 * Pd_1) / result7)
+            var v_2 = Ptube * Math.sqrt((2 * Pd_2) / result7)
+            var v_3 = Ptube * Math.sqrt((2 * Pd_3) / result7)
+            var v_4 = Ptube * Math.sqrt((2 * Pd_4) / result7)
 
-            var values = [
-                Ptube * Math.sqrt((2 * Pd_1) / result7),
-                Ptube * Math.sqrt((2 * Pd_2) / result7),
-                Ptube * Math.sqrt((2 * Pd_3) / result7),
-                Ptube * Math.sqrt((2 * Pd_4) / result7),
-            ]
+            var values = [
+                Ptube * Math.sqrt((2 * Pd_1) / result7),
+                Ptube * Math.sqrt((2 * Pd_2) / result7),
+                Ptube * Math.sqrt((2 * Pd_3) / result7),
+                Ptube * Math.sqrt((2 * Pd_4) / result7),
+            ]
 
-            // 数字かつ0以外だけをフィルター
-            var validValues = values.filter(
-                (v) => v !== null && v !== undefined && !isNaN(v) && v !== 0,
-            )
-            var v_ave =
-                validValues.length > 0
-                    ? validValues.reduce((sum, v) => sum + v, 0) / validValues.length
-                    : 0 // 有効データがないときは0にしてる
+            // 数字かつ0以外だけをフィルター
+            var validValues = values.filter(
+                (v) => v !== null && v !== undefined && !isNaN(v) && v !== 0,
+            )
+            var v_ave =
+                validValues.length > 0
+                    ? validValues.reduce((sum, v) => sum + v, 0) / validValues.length
+                    : 0 // 有効データがないときは0にしてる
 
-            document.getElementById("v_1").innerText =
-                "排ガス流速Ｖ(m/min) 1=  " + v_1.toFixed(2)
-            document.getElementById("v_2").innerText =
-                "排ガス流速Ｖ(m/min) 2=  " + v_2.toFixed(2)
-            document.getElementById("v_3").innerText =
-                "排ガス流速Ｖ(m/min) 3=  " + v_3.toFixed(2)
-            document.getElementById("v_4").innerText =
-                "排ガス流速Ｖ(m/min) 4=  " + v_4.toFixed(2)
-            document.getElementById("v_ave").innerText = "平均V(m/min)=  " + v_ave.toFixed(2)
-            //排ガス流速
-            //等速吸引流量
-            var qm_1 = Math.PI / 4 * 8 * 8 * v_ave * (1 - (result3 / 100)) * (273 + g) / (273 + avg) * (i + Ps_O) / ((i + h) - 0) * 60 * 0.001
-            var qm_2 = Math.PI / 4 * 10 * 10 * v_ave * (1 - (result3 / 100)) * (273 + g) / (273 + avg) * (i + Ps_O) / ((i + h) - 0) * 60 * 0.001
-            var qm_3 = Math.PI / 4 * 12 * 12 * v_ave * (1 - (result3 / 100)) * (273 + g) / (273 + avg) * (i + Ps_O) / ((i + h) - 0) * 60 * 0.001
-            var qm_4 = Math.PI / 4 * 14 * 14 * v_ave * (1 - (result3 / 100)) * (273 + g) / (273 + avg) * (i + Ps_O) / ((i + h) - 0) * 60 * 0.001
+            document.getElementById("v_1").innerText =
+                "排ガス流速Ｖ(m/min) 1=  " + v_1.toFixed(2)
+            document.getElementById("v_2").innerText =
+                "排ガス流速Ｖ(m/min) 2=  " + v_2.toFixed(2)
+            document.getElementById("v_3").innerText =
+                "排ガス流速Ｖ(m/min) 3=  " + v_3.toFixed(2)
+            document.getElementById("v_4").innerText =
+                "排ガス流速Ｖ(m/min) 4=  " + v_4.toFixed(2)
+            document.getElementById("v_ave").innerText = "平均V(m/min)=  " + v_ave.toFixed(2)
+            //排ガス流速
+            //等速吸引流量
+            var qm_1 = Math.PI / 4 * 8 * 8 * v_ave * (1 - (result3 / 100)) * (273 + g) / (273 + avg) * (i + Ps_O) / ((i + h) - 0) * 60 * 0.001
+            var qm_2 = Math.PI / 4 * 10 * 10 * v_ave * (1 - (result3 / 100)) * (273 + g) / (273 + avg) * (i + Ps_O) / ((i + h) - 0) * 60 * 0.001
+            var qm_3 = Math.PI / 4 * 12 * 12 * v_ave * (1 - (result3 / 100)) * (273 + g) / (273 + avg) * (i + Ps_O) / ((i + h) - 0) * 60 * 0.001
+            var qm_4 = Math.PI / 4 * 14 * 14 * v_ave * (1 - (result3 / 100)) * (273 + g) / (273 + avg) * (i + Ps_O) / ((i + h) - 0) * 60 * 0.001
+            var qm_5 = Math.PI / 4 * 14 * 16 * v_ave * (1 - (result3 / 100)) * (273 + g) / (273 + avg) * (i + Ps_O) / ((i + h) - 0) * 60 * 0.001
+            var qm_6 = Math.PI / 4 * 14 * 18 * v_ave * (1 - (result3 / 100)) * (273 + g) / (273 + avg) * (i + Ps_O) / ((i + h) - 0) * 60 * 0.001
+            var qm_7 = Math.PI / 4 * 14 * 20 * v_ave * (1 - (result3 / 100)) * (273 + g) / (273 + avg) * (i + Ps_O) / ((i + h) - 0) * 60 * 0.001
 
-            var sec_1 = 60 / qm_1
-            var sec_2 = 60 / qm_2
-            var sec_3 = 60 / qm_3
-            var sec_4 = 60 / qm_4
+            var sec_1 = 60 / qm_1
+            var sec_2 = 60 / qm_2
+            var sec_3 = 60 / qm_3
+            var sec_4 = 60 / qm_4
+            var sec_5 = 60 / qm_5
+            var sec_6 = 60 / qm_6
+            var sec_7 = 60 / qm_7
 
-            document.getElementById("qm_1").innerText = qm_1.toFixed(1)
-            document.getElementById("qm_2").innerText = qm_2.toFixed(1)
-            document.getElementById("qm_3").innerText = qm_3.toFixed(1)
-            document.getElementById("qm_4").innerText = qm_4.toFixed(1)
+            document.getElementById("qm_1").innerText = qm_1.toFixed(1)
+            document.getElementById("qm_2").innerText = qm_2.toFixed(1)
+            document.getElementById("qm_3").innerText = qm_3.toFixed(1)
+            document.getElementById("qm_4").innerText = qm_4.toFixed(1)
+            document.getElementById("qm_5").innerText = qm_5.toFixed(1)
+            document.getElementById("qm_6").innerText = qm_6.toFixed(1)
+            document.getElementById("qm_7").innerText = qm_7.toFixed(1)
 
-            document.getElementById("sec_1").innerText = sec_1.toFixed(2)
-            document.getElementById("sec_2").innerText = sec_2.toFixed(2)
-            document.getElementById("sec_3").innerText = sec_3.toFixed(2)
-            document.getElementById("sec_4").innerText = sec_4.toFixed(2)
+            document.getElementById("sec_1").innerText = sec_1.toFixed(2)
+            document.getElementById("sec_2").innerText = sec_2.toFixed(2)
+            document.getElementById("sec_3").innerText = sec_3.toFixed(2)
+            document.getElementById("sec_4").innerText = sec_4.toFixed(2)
+            document.getElementById("sec_5").innerText = sec_5.toFixed(2)
+            document.getElementById("sec_6").innerText = sec_6.toFixed(2)
+            document.getElementById("sec_7").innerText = sec_7.toFixed(2)
 
-                // 全部のsecセルの色を一旦黒にリセット
-                 for (let i = 1; i <= 4; i++) {
-                document.getElementById('sec_' + i).style.color = 'black';
-                 }
-                // sec の中から 3 に一番近いものを探す
-                const secs = [sec_1, sec_2, sec_3,sec_4];
-                let closestIndex = 0;
-                let closestDiff = Math.abs(secs[0] - 3);
 
-                for (let i = 1; i < secs.length; i++) {
-                    const diff = Math.abs(secs[i] - 3);
-                    if (diff < closestDiff) {
-                    closestDiff = diff;
-                    closestIndex = i;
-                    }
-                }
-                // 一番近いsecを赤字にする
-                document.getElementById('sec_' + (closestIndex + 1)).style.color = 'red';
-            //等速吸引流量
-        }
-    </script>
+                // 全部のsecセルの色を一旦黒にリセット
+                 for (let i = 1; i <= 7; i++) {
+                document.getElementById('sec_' + i).style.color = 'black';
+                 }
+                // sec の中から 2.5 に一番近いものを探す
+                const secs = [sec_1, sec_2, sec_3,sec_4,sec_5,sec_6,sec_7];
+                let closestIndex = 0;
+                let closestDiff = Math.abs(secs[0] - 2.5);
+
+                for (let i = 1; i < secs.length; i++) {
+                    const diff = Math.abs(secs[i] - 2.5);
+                    if (diff < closestDiff) {
+                    closestDiff = diff;
+                    closestIndex = i;
+                    }
+                }
+                // 一番近いsecを赤字にする
+                document.getElementById('sec_' + (closestIndex + 1)).style.color = 'red';
+            //等速吸引流量
+        }
+    </script>
 
 </head>
 
 <body>
-    <h1 style="line-height: 1%;">等速吸引計算フォーム</h1>
-    <div style="text-align: right;">Ver.1.7</div>
+    <h1 style="line-height: 1%;">等速吸引計算フォーム</h1>
+    <div style="text-align: right;">Ver.1.8</div>
 
-    <form>
-        <h3 style="line-height: 1%;">＜ガス組成及びガス密度＞</h3>
-        <label for="O2">O2:</label>
-        <input type="number" id="O2" oninput="calculate()" /><br />
-        <label for="CO2">CO2:</label>
-        <input type="number" id="CO2" oninput="calculate()" /><br />
-        <label for="CO">CO:</label>
-        <input type="number" id="CO" value="0"  oninput="calculate()" /><br />
+    <form>
+        <h3 style="line-height: 1%;">＜ガス組成及びガス密度＞</h3>
+        <label for="O2">O2:</label>
+        <input type="number" id="O2" oninput="calculate()" /><br />
+        <label for="CO2">CO2:</label>
+        <input type="number" id="CO2" oninput="calculate()" /><br />
+        <label for="CO">CO:</label>
+        <input type="number" id="CO" value="0"  oninput="calculate()" /><br />
 
-        <div id="result4" class="small-text"></div>
-        <div id="result5" class="small-text"></div>
-        <div id="result6" class="small-text"></div>
-        <div id="result7" class="small-text"></div>
+        <div id="result4" class="small-text"></div>
+        <div id="result5" class="small-text"></div>
+        <div id="result6" class="small-text"></div>
+        <div id="result7" class="small-text"></div>
 
-        <hr />
+        <hr />
 
-        <h3 style="line-height: 1%;">＜排ガス温度＞</h3>
-        <label for="temp1">1回目:</label>
-        <input type="number" id="temp1" oninput="calculate()" /><br />
-        <label for="temp2">2回目:</label>
-        <input type="number" id="temp2" oninput="calculate()" /><br />
-        <label for="temp3">3回目:</label>
-        <input type="number" id="temp3" oninput="calculate()" /><br />
-        <label for="temp4">4回目:</label>
-        <input type="number" id="temp4" oninput="calculate()" /><br />
-        <label for="temp5">5回目:</label>
-        <input type="number" id="temp5" oninput="calculate()" /><br />
+        <h3 style="line-height: 1%;">＜排ガス温度＞</h3>
+        <label for="temp1">1回目:</label>
+        <input type="number" id="temp1" oninput="calculate()" /><br />
+        <label for="temp2">2回目:</label>
+        <input type="number" id="temp2" oninput="calculate()" /><br />
+        <label for="temp3">3回目:</label>
+        <input type="number" id="temp3" oninput="calculate()" /><br />
+        <label for="temp4">4回目:</label>
+        <input type="number" id="temp4" oninput="calculate()" /><br />
+        <label for="temp5">5回目:</label>
+        <input type="number" id="temp5" oninput="calculate()" /><br />
 
-        <div id="temp_ave"class="small-text"></div>
+        <div id="temp_ave"class="small-text"></div>
 
-        <hr />
+        <hr />
 
-        <h3 style="line-height: 1%;">＜排ガス流速＞</h3>
+        <h3 style="line-height: 1%;">＜排ガス流速＞</h3>
 
-        <div class="form-group">
-            <label for="Ptube">ピトー管係数:</label>
-            <select id="Ptube" onchange="calculate()">
-                <option value="0.84">0.84</option>
-                <option value="0.85">0.85</option>
-            </select><br />
+        <div class="form-group">
+            <label for="Ptube">ピトー管係数:</label>
+            <select id="Ptube" onchange="calculate()">
+                <option value="0.84">0.84</option>
+                <option value="0.85">0.85</option>
+            </select><br />
 
-        <span style="font-size:50%;">長:0.84 短:0.85</span>
-        </div>
+        <span style="font-size:50%;">長:0.84 短:0.85</span>
+        </div>
 
-        <div>【動圧Pd(Pa)】</div>
-        <div class="form-group">
-        <label for="Pd_1">測定位置1:</label>
-        <input type="number" id="Pd_1" oninput="calculate()" /><br />
-        <span style="font-size:50%;" id="v_1"></span>
-        </div>
-        <div class="form-group">
-        <label for="Pd_2">測定位置2:</label>
-        <input type="number" id="Pd_2" oninput="calculate()" /><br />
-        <span style="font-size:50%;" id="v_2"></span>
-        </div>
-        <div class="form-group">
-        <label for="Pd_3">測定位置3:</label>
-        <input type="number" id="Pd_3" oninput="calculate()" /><br />
-        <span style="font-size:50%;" id="v_3"></span>
-        </div>
-        <div class="form-group">
-        <label for="Pd_4">測定位置4:</label>
-        <input type="number" id="Pd_4" oninput="calculate()" /><br />
-        <span style="font-size:50%;" id="v_4"></span>
-        </div>
+        <div>【動圧Pd(Pa)】</div>
+        <div class="form-group">
+        <label for="Pd_1">測定位置1:</label>
+        <input type="number" id="Pd_1" oninput="calculate()" /><br />
+        <span style="font-size:50%;" id="v_1"></span>
+        </div>
+        <div class="form-group">
+        <label for="Pd_2">測定位置2:</label>
+        <input type="number" id="Pd_2" oninput="calculate()" /><br />
+        <span style="font-size:50%;" id="v_2"></span>
+        </div>
+        <div class="form-group">
+        <label for="Pd_3">測定位置3:</label>
+        <input type="number" id="Pd_3" oninput="calculate()" /><br />
+        <span style="font-size:50%;" id="v_3"></span>
+        </div>
+        <div class="form-group">
+        <label for="Pd_4">測定位置4:</label>
+        <input type="number" id="Pd_4" oninput="calculate()" /><br />
+        <span style="font-size:50%;" id="v_4"></span>
+        </div>
 
-        <div style="margin-bottom: 10px;" id="v_ave"class="small-text"></div>
+        <div style="margin-bottom: 10px;" id="v_ave"class="small-text"></div>
 
-        <div>【静圧Ps(kPa)】</div>
-        <label for="Ps_O">測定位置O:</label>
-        <input type="number" id="Ps_O" oninput="calculate()" /><br />
+        <div>【静圧Ps(kPa)】</div>
+        <label for="Ps_O">測定位置O:</label>
+        <input type="number" id="Ps_O" oninput="calculate()" /><br />
 
-        <hr />
+        <hr />
 
-        <h3 style="line-height: 1%;">＜水分＞</h3>
+        <h3 style="line-height: 1%;">＜水分＞</h3>
 
-        <label for="a">始(1本目)(g):</label>
-        <input type="number" id="a" oninput="calculate()" /><br />
-        <label for="b">始(2本目)(g):</label>
-        <input type="number" id="b" oninput="calculate()" /><br />
-        <label for="c">終(1本目)(g):</label>
-        <input type="number" id="c" oninput="calculate()" /><br />
-        <label for="d">終(2本目)(g):</label>
-        <input type="number" id="d" oninput="calculate()" /><br />
-        <label for="e">メーター始(L):</label>
-        <input type="number" id="e" oninput="calculate()" /><br />
-        <label for="f">メーター終(L):</label>
-        <input type="number" id="f" oninput="calculate()" /><br />
-        <label for="g">メーター温度θm(℃):</label>
-        <input type="number" id="g" oninput="calculate()" /><br />
-        <label for="h">メーターゲージ圧Pm(kPa):</label>
-        <input type="number" id="h" oninput="calculate()" /><br />
-        <label for="i">大気圧(kPa):</label>
-        <input type="number" id="i" oninput="calculate()" /><br />
+        <label for="a">始(1本目)(g):</label>
+        <input type="number" id="a" oninput="calculate()" /><br />
+        <label for="b">始(2本目)(g):</label>
+        <input type="number" id="b" oninput="calculate()" /><br />
+        <label for="c">終(1本目)(g):</label>
+        <input type="number" id="c" oninput="calculate()" /><br />
+        <label for="d">終(2本目)(g):</label>
+        <input type="number" id="d" oninput="calculate()" /><br />
+        <label for="e">メーター始(L):</label>
+        <input type="number" id="e" oninput="calculate()" /><br />
+        <label for="f">メーター終(L):</label>
+        <input type="number" id="f" oninput="calculate()" /><br />
+        <label for="g">メーター温度θm(℃):</label>
+        <input type="number" id="g" oninput="calculate()" /><br />
+        <label for="h">メーターゲージ圧Pm(kPa):</label>
+        <input type="number" id="h" oninput="calculate()" /><br />
+        <label for="i">大気圧(kPa):</label>
+        <input type="number" id="i" oninput="calculate()" /><br />
 
-        <div id="result1"class="small-text"></div>
-        <div id="result2"class="small-text"></div>
-        <div id="result3"class="small-text"></div>
-    </form>
-    <hr>
+        <div id="result1"class="small-text"></div>
+        <div id="result2"class="small-text"></div>
+        <div id="result3"class="small-text"></div>
+    </form>
+    <hr>
 
-    <h3 style="line-height: 1%;">＜等速吸引流量＞</h3>
+    <h3 style="line-height: 1%;">＜等速吸引流量＞</h3>
 
-    <table border="1">
-        <tr>
-            <th>ノズル(φ)</th>
-            <th>等速吸引流量qm(L/min)</th>
-            <th>1L吸引の所要時間(秒)</th>
-        </tr>
-        <tr>
-            <td>8</td>
-            <td id="qm_1"></td>
-            <td id="sec_1"></td>
-        </tr>
-        <tr>
-            <td>10</td>
-            <td id="qm_2"></td>
-            <td id="sec_2"></td>
-        </tr>
-        <tr>
-            <td>12</td>
-            <td id="qm_3"></td>
-            <td id="sec_3"></td>
-        </tr>
-        <tr>
-            <td>14</td>
-            <td id="qm_4"></td>
-            <td id="sec_4"></td>
-        </tr>
+    <table border="1">
+        <tr>
+            <th>ノズル(φ)</th>
+            <th>等速吸引流量qm(L/min)</th>
+            <th>1L吸引の所要時間(秒)</th>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td id="qm_1"></td>
+            <td id="sec_1"></td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td id="qm_2"></td>
+            <td id="sec_2"></td>
+        </tr>
+        <tr>
+            <td>12</td>
+            <td id="qm_3"></td>
+            <td id="sec_3"></td>
+        </tr>
+        <tr>
+            <td>14</td>
+            <td id="qm_4"></td>
+            <td id="sec_4"></td>
+        </tr>
+         <tr>
+            <td>16</td>
+            <td id="qm_5"></td>
+            <td id="sec_5"></td>
+        </tr>
+         <tr>
+            <td>18</td>
+            <td id="qm_6"></td>
+            <td id="sec_6"></td>
+        </tr>
+         <tr>
+            <td>20</td>
+            <td id="qm_7"></td>
+            <td id="sec_7"></td>
+        </tr>
 
-    </table>
+    </table>
 
 </body>
 
